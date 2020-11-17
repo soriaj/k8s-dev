@@ -7,4 +7,5 @@ cat >> /etc/hosts <<EOF
 192.168.60.12  controller-2
 192.168.60.13  controller-3
 192.168.60.21  worker-1
+192.168.60.22  worker-2
 EOF

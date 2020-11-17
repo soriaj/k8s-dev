@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 MASTER_NODE_COUNT = 2
+WORKER_NODE_COUNT = 1
 
 
 Vagrant.configure("2") do |config|
@@ -32,16 +33,17 @@ Vagrant.configure("2") do |config|
   end
 
   # Provision Worker Nodes
-  config.vm.define "worker-1" do |node|
-    node.vm.provider "virtualbox" do |vb|
-      vb.name = "k8s-worker-1"
-      vb.memory = 512
-      vb.cpus = 1
-    end
-    # Define hostname in machine# Set private IP for communication
-      node.vm.network :private_network, ip: "192.168.60.21"
+  (1..WORKER_NODE_COUNT).each do |i|
+    config.vm.define "worker-#{i}" do |node|
+      node.vm.provider "virtualbox" do |vb|
+        vb.name = "k8s-worker-1"
+        vb.memory = 512
+        vb.cpus = 1
+      end
+      # Define hostname in machine# Set private IP for communication
+      node.vm.network :private_network, ip: "192.168.60.2#{i}"
       # Set ssh host port to prevent duplicate port
-      node.vm.network "forwarded_port", guest: 22, host: "2221"
+      node.vm.network "forwarded_port", guest: 22, host: "#{222 + i}"
       # Set known hosts
       node.vm.provision "setup_hosts", type: "shell", :path => "./setup_hosts.sh" do |net|
         net.args = ["enp0s8"]
