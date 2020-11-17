@@ -6,4 +6,5 @@ cat >> /etc/hosts <<EOF
 192.168.60.11  controller-1
 192.168.60.12  controller-2
 192.168.60.13  controller-3
-EOFgit
+192.168.60.21  worker-1
+EOF
